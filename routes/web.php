@@ -17,8 +17,23 @@ $router->get('/', function () use ($router) {
     return response($res);
 });
 
-$router->post('/login', 'LoginController@index');
-$router->post('/register', 'UserController@register');
+$router->options(
+    '/{any:.*}', 
+    [
+        'middleware' => ['CorsMiddleware'], 
+        function (){ 
+            return response(['status' => 'success']); 
+        }
+    ]
+);
+$router->group(['middleware' => 'CorsMiddleware'], function($router){
+    $router->post('/login', 'LoginController@index');
+    $router->post('/register', 'UserController@register');
+});
+// $router->post('/login', 'LoginController@index');
+// $router->group(['middleware' => 'CorsMiddleWare2'], function() use ($router) {
+//     $router->post('/login', 'LoginController@index');
+// });
 $router->get('/user/{id}', ['middleware' => 'auth', 'uses' => 'UserController@get_user']);
 
 // $router->post('/auth/login', 'AuthController@postLogin');

@@ -11,13 +11,13 @@ class LoginController extends Controller
     {
         $hasher = app()->make('hash');
 
-        $email = $request->input('email');
+        $username = $request->input('username');
         $password = $request->input('password');
 
-        $login = User::where('email', $email)->first();
+        $login = User::where('username', $username)->first();
         if(!$login) {
             $res['success'] = false;
-            $res['message'] = 'Your email or password incorrect!';
+            $res['message'] = 'Your username or password incorrect!';
             
             return response($res);
         }else{
@@ -33,7 +33,7 @@ class LoginController extends Controller
                 }
             }else{
                 $res['success'] = true;
-                $res['message'] = 'Your email or password incorrect!';
+                $res['message'] = 'Your username or password incorrect!';
 
                 return response($res);
             }
